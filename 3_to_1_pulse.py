@@ -1,26 +1,27 @@
+from typing import Union
 from pynput import keyboard
-from pynput.keyboard import Key
+from pynput.keyboard import Key, KeyCode
 import pyautogui
 
-from utils import stardew_focused
+from utils import stardew_focused, sanitize_key
 
 class AnimationCancel:
-    def __init__(self, watch_key: Key):
-        self.key = watch_key
-        self.down = False
+    def __init__(self, watch_key: Union[Key, KeyCode, str]):
+        self.key = sanitize_key(watch_key)
+        self.down = False # use to ensure it only occurs once before release
 
-    def on_press(self, key):
+    def on_press(self, key: Union[Key, KeyCode, None]):
         if stardew_focused() and key == self.key and not self.down:
             self.down = True
             pyautogui.keyDown("shiftright")
             pyautogui.keyDown("r")
             pyautogui.keyDown("delete")
-            pyautogui.sleep(0.025)
+            pyautogui.sleep(0.025) # pause to allow it register the presses
             pyautogui.keyUp("shiftright")
             pyautogui.keyUp("r")
             pyautogui.keyUp("delete")
 
-    def on_release(self, key):
+    def on_release(self, key: Union[Key, KeyCode, None]):
         if key == self.key:
             self.down = False
     
