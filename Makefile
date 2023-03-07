@@ -5,3 +5,6 @@ build:
 
 clean:
 	rm -rf dist build
+
+install_deps:
+	arch -x86_64 pip3 install -r requirements.txt
