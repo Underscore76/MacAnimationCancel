@@ -4,7 +4,7 @@ import pyautogui
 from pynput.keyboard import Key
 pyautogui.PAUSE = 0
 
-from ac_3_to_1 import AnimationCancel
+from lib.ac_3_to_1 import AnimationCancel
 
 ac = AnimationCancel(Key.space)
 threading.Thread(target=ac.run, daemon=True).start()
